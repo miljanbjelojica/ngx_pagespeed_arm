@@ -43,7 +43,7 @@ Then copy the module `objs/ngx_pagespeed.so` to the right place for your NGINX m
 git clone https://github.com/apache/incubator-pagespeed-ngx.git
 cd incubator-pagespeed-ngx
 wget https://gitlab.com/gusco/ngx_pagespeed_arm/-/raw/master/psol-1.15.0.0-armv7l.tar.gz
-tar xvf psol-1.15.0.0-aarch64.tar.gz
+tar xvf psol-1.15.0.0-armv7l.tar.gz
 sed -i 's/x86_64/armv7l/' config
 sed -i 's/x64/armv7l/' config
 cd ..
