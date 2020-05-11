@@ -25,6 +25,7 @@ wget https://gitlab.com/gusco/ngx_pagespeed_arm/-/raw/master/psol-1.15.0.0-aarch
 tar xvf psol-1.15.0.0-aarch64.tar.gz
 sed -i 's/x86_64/aarch64/' config
 sed -i 's/x64/aarch64/' config
+sed -i 's/-luuid/-l:libuuid.so.1/' config
 cd ..
 
 wget http://nginx.org/download/nginx-1.18.0.tar.gz
@@ -40,12 +41,14 @@ Then copy the module `objs/ngx_pagespeed.so` to the right place for your NGINX m
 ### To build a dynamic ngx_pagespeed.so module for NGINX v1.18.0 on armv7l
 
 ```
+sudo apt install uuid (if building on Raspbian)
 git clone https://github.com/apache/incubator-pagespeed-ngx.git
 cd incubator-pagespeed-ngx
 wget https://gitlab.com/gusco/ngx_pagespeed_arm/-/raw/master/psol-1.15.0.0-armv7l.tar.gz
 tar xvf psol-1.15.0.0-armv7l.tar.gz
 sed -i 's/x86_64/armv7l/' config
 sed -i 's/x64/armv7l/' config
+sed -i 's/-luuid/-l:libuuid.so.1/' config
 cd ..
 
 wget http://nginx.org/download/nginx-1.18.0.tar.gz

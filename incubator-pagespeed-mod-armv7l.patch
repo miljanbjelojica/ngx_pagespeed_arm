@@ -1,6 +1,6 @@
 diff -Naur incubator-pagespeed-mod.orig/build/install.gyp incubator-pagespeed-mod/build/install.gyp
---- incubator-pagespeed-mod.orig/build/install.gyp	2020-05-09 23:43:22.684157442 +0100
-+++ incubator-pagespeed-mod/build/install.gyp	2020-05-10 21:37:59.106718645 +0100
+--- incubator-pagespeed-mod.orig/build/install.gyp	2020-05-11 17:08:17.572793000 +0100
++++ incubator-pagespeed-mod/build/install.gyp	2020-05-11 17:48:17.889752612 +0100
 @@ -67,6 +67,10 @@
              'deb_arch': 'amd64',
              'rpm_arch': 'x86_64',
@@ -13,8 +13,8 @@ diff -Naur incubator-pagespeed-mod.orig/build/install.gyp incubator-pagespeed-mo
        },
        'targets': [
 diff -Naur incubator-pagespeed-mod.orig/install/build_psol.sh incubator-pagespeed-mod/install/build_psol.sh
---- incubator-pagespeed-mod.orig/install/build_psol.sh	2020-05-09 23:43:22.774155722 +0100
-+++ incubator-pagespeed-mod/install/build_psol.sh	2020-05-10 21:37:59.106718645 +0100
+--- incubator-pagespeed-mod.orig/install/build_psol.sh	2020-05-11 17:08:17.652792532 +0100
++++ incubator-pagespeed-mod/install/build_psol.sh	2020-05-11 17:48:17.889752612 +0100
 @@ -19,7 +19,7 @@
  # Builds psol tarball from a mod_pagespeed checkout.
  
@@ -54,9 +54,33 @@ diff -Naur incubator-pagespeed-mod.orig/install/build_psol.sh incubator-pagespee
  else
    bit_size_name=ia32
  fi
+diff -Naur incubator-pagespeed-mod.orig/pagespeed/automatic/Makefile incubator-pagespeed-mod/pagespeed/automatic/Makefile
+--- incubator-pagespeed-mod.orig/pagespeed/automatic/Makefile	2020-05-11 17:08:18.082790009 +0100
++++ incubator-pagespeed-mod/pagespeed/automatic/Makefile	2020-05-11 17:49:03.808306293 +0100
+@@ -211,7 +211,7 @@
+ endif
+ INCLUDE_ARCH = arch/linux/x64
+ LIBS = $(addprefix $(MOD_PAGESPEED_ROOT)/out/$(BUILDTYPE)/obj.target/, $(BASE_LIBS))
+-SYSLIBS = -lpthread -lrt -luuid
++SYSLIBS = -lpthread -lrt -l:libuuid.so.1
+ TESTBENCH_LIB = $(MOD_PAGESPEED_ROOT)/out/$(BUILDTYPE)/obj.target/third_party/re2/libre2_bench_util.a
+ 
+ build_libraries :
+diff -Naur incubator-pagespeed-mod.orig/third_party/apr/apr.gyp incubator-pagespeed-mod/third_party/apr/apr.gyp
+--- incubator-pagespeed-mod.orig/third_party/apr/apr.gyp	2020-05-11 17:08:18.382788236 +0100
++++ incubator-pagespeed-mod/third_party/apr/apr.gyp	2020-05-11 17:48:48.508788292 +0100
+@@ -81,7 +81,7 @@
+                   'link_settings': {
+                     'libraries': [
+                       '-ldl',
+-                      '-luuid',
++                      '-l:libuuid.so.1',
+                   ]},
+                 }],
+               ],
 diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/arm/include/apr.h incubator-pagespeed-mod/third_party/apr/gen/arch/linux/arm/include/apr.h
 --- incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/arm/include/apr.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/arm/include/apr.h	2020-05-10 21:37:59.116718493 +0100
++++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/arm/include/apr.h	2020-05-11 17:48:18.119745370 +0100
 @@ -0,0 +1,512 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -572,7 +596,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/arm/inclu
 +#endif /* APR_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/arm/include/apr_private.h incubator-pagespeed-mod/third_party/apr/gen/arch/linux/arm/include/apr_private.h
 --- incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/arm/include/apr_private.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/arm/include/apr_private.h	2020-05-10 21:37:59.116718493 +0100
++++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/arm/include/apr_private.h	2020-05-11 17:48:18.119745370 +0100
 @@ -0,0 +1,938 @@
 +/* include/arch/unix/apr_private.h.  Generated from apr_private.h.in by configure.  */
 +/* include/arch/unix/apr_private.h.in.  Generated from configure.in by autoheader.  */
@@ -1514,7 +1538,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/arm/inclu
 +#endif /* APR_PRIVATE_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/armv7l/include/apr.h incubator-pagespeed-mod/third_party/apr/gen/arch/linux/armv7l/include/apr.h
 --- incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/armv7l/include/apr.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/armv7l/include/apr.h	2020-05-10 21:37:59.116718493 +0100
++++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/armv7l/include/apr.h	2020-05-11 17:48:18.119745370 +0100
 @@ -0,0 +1,512 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -2030,7 +2054,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/armv7l/in
 +#endif /* APR_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/armv7l/include/apr_private.h incubator-pagespeed-mod/third_party/apr/gen/arch/linux/armv7l/include/apr_private.h
 --- incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/armv7l/include/apr_private.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/armv7l/include/apr_private.h	2020-05-10 21:37:59.116718493 +0100
++++ incubator-pagespeed-mod/third_party/apr/gen/arch/linux/armv7l/include/apr_private.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,938 @@
 +/* include/arch/unix/apr_private.h.  Generated from apr_private.h.in by configure.  */
 +/* include/arch/unix/apr_private.h.in.  Generated from configure.in by autoheader.  */
@@ -2972,7 +2996,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/apr/gen/arch/linux/armv7l/in
 +#endif /* APR_PRIVATE_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/apr_ldap.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apr_ldap.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/apr_ldap.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apr_ldap.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apr_ldap.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,197 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3173,7 +3197,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/i
 +#endif /* APU_LDAP_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/apu.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apu.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/apu.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apu.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apu.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,110 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3287,7 +3311,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/i
 +/** @} */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/apu_want.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apu_want.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/apu_want.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apu_want.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/apu_want.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,51 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3342,7 +3366,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/i
 +/* --------------------------------------------------------------------- */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/private/apu_config.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/private/apu_config.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/private/apu_config.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/private/apu_config.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/private/apu_config.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,149 @@
 +/* include/private/apu_config.h.  Generated from apu_config.h.in by configure.  */
 +/* include/private/apu_config.h.in.  Generated from configure.in by autoheader.  */
@@ -3495,7 +3519,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/i
 +#define STDC_HEADERS 1
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/private/apu_select_dbm.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/private/apu_select_dbm.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/include/private/apu_select_dbm.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/private/apu_select_dbm.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/arm/include/private/apu_select_dbm.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,28 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3527,7 +3551,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/arm/i
 +#endif	/* !APU_SELECT_DBM_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/apr_ldap.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apr_ldap.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/apr_ldap.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apr_ldap.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apr_ldap.h	2020-05-11 17:48:18.129745055 +0100
 @@ -0,0 +1,197 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3728,7 +3752,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7
 +#endif /* APU_LDAP_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/apu.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apu.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/apu.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apu.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apu.h	2020-05-11 17:48:18.139744740 +0100
 @@ -0,0 +1,110 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3842,7 +3866,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7
 +/** @} */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/apu_want.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apu_want.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/apu_want.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apu_want.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/apu_want.h	2020-05-11 17:48:18.139744740 +0100
 @@ -0,0 +1,51 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -3897,7 +3921,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7
 +/* --------------------------------------------------------------------- */
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_config.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_config.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_config.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_config.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_config.h	2020-05-11 17:48:18.139744740 +0100
 @@ -0,0 +1,149 @@
 +/* include/private/apu_config.h.  Generated from apu_config.h.in by configure.  */
 +/* include/private/apu_config.h.in.  Generated from configure.in by autoheader.  */
@@ -4050,7 +4074,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7
 +#define STDC_HEADERS 1
 diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_select_dbm.h incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_select_dbm.h
 --- incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_select_dbm.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_select_dbm.h	2020-05-10 21:37:59.126718341 +0100
++++ incubator-pagespeed-mod/third_party/aprutil/gen/arch/linux/armv7l/include/private/apu_select_dbm.h	2020-05-11 17:48:18.139744740 +0100
 @@ -0,0 +1,28 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -4081,8 +4105,8 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/aprutil/gen/arch/linux/armv7
 +
 +#endif	/* !APU_SELECT_DBM_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/boringssl/src/crypto/crypto.c incubator-pagespeed-mod/third_party/boringssl/src/crypto/crypto.c
---- incubator-pagespeed-mod.orig/third_party/boringssl/src/crypto/crypto.c	2020-05-10 00:14:28.258493612 +0100
-+++ incubator-pagespeed-mod/third_party/boringssl/src/crypto/crypto.c	2020-05-10 21:37:59.136718189 +0100
+--- incubator-pagespeed-mod.orig/third_party/boringssl/src/crypto/crypto.c	2020-05-11 17:34:39.705229920 +0100
++++ incubator-pagespeed-mod/third_party/boringssl/src/crypto/crypto.c	2020-05-11 17:48:18.139744740 +0100
 @@ -59,30 +59,6 @@
  
  #include <openssl/arm_arch.h>
@@ -4115,8 +4139,8 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/boringssl/src/crypto/crypto.
  
  
 diff -Naur incubator-pagespeed-mod.orig/third_party/chromium/src/base/atomicops_internals_arm_gcc.h incubator-pagespeed-mod/third_party/chromium/src/base/atomicops_internals_arm_gcc.h
---- incubator-pagespeed-mod.orig/third_party/chromium/src/base/atomicops_internals_arm_gcc.h	2020-05-10 00:14:31.978422499 +0100
-+++ incubator-pagespeed-mod/third_party/chromium/src/base/atomicops_internals_arm_gcc.h	2020-05-10 21:37:59.136718189 +0100
+--- incubator-pagespeed-mod.orig/third_party/chromium/src/base/atomicops_internals_arm_gcc.h	2020-05-11 17:34:46.065035576 +0100
++++ incubator-pagespeed-mod/third_party/chromium/src/base/atomicops_internals_arm_gcc.h	2020-05-11 17:48:18.249741276 +0100
 @@ -59,7 +59,8 @@
  // variant of the target architecture is being used. This tests against
  // any known ARMv6 or ARMv7 variant, where it is possible to directly
@@ -4128,8 +4152,8 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/chromium/src/base/atomicops_
      defined(__ARM_ARCH_6__) || defined(__ARM_ARCH_6J__) || \
      defined(__ARM_ARCH_6K__) || defined(__ARM_ARCH_6Z__) || \
 diff -Naur incubator-pagespeed-mod.orig/third_party/chromium/src/build/common.gypi incubator-pagespeed-mod/third_party/chromium/src/build/common.gypi
---- incubator-pagespeed-mod.orig/third_party/chromium/src/build/common.gypi	2020-05-10 00:14:33.248398221 +0100
-+++ incubator-pagespeed-mod/third_party/chromium/src/build/common.gypi	2020-05-10 21:37:59.146718037 +0100
+--- incubator-pagespeed-mod.orig/third_party/chromium/src/build/common.gypi	2020-05-11 17:34:47.324997063 +0100
++++ incubator-pagespeed-mod/third_party/chromium/src/build/common.gypi	2020-05-11 17:48:18.379737183 +0100
 @@ -748,7 +748,7 @@
            'enable_settings_app%': 0,
          }],
@@ -4159,7 +4183,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/chromium/src/build/common.gy
  
 diff -Naur incubator-pagespeed-mod.orig/third_party/google-sparsehash/gen/arch/linux/arm/include/google/sparsehash/sparseconfig.h incubator-pagespeed-mod/third_party/google-sparsehash/gen/arch/linux/arm/include/google/sparsehash/sparseconfig.h
 --- incubator-pagespeed-mod.orig/third_party/google-sparsehash/gen/arch/linux/arm/include/google/sparsehash/sparseconfig.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/google-sparsehash/gen/arch/linux/arm/include/google/sparsehash/sparseconfig.h	2020-05-10 21:37:59.146718037 +0100
++++ incubator-pagespeed-mod/third_party/google-sparsehash/gen/arch/linux/arm/include/google/sparsehash/sparseconfig.h	2020-05-11 17:48:18.379737183 +0100
 @@ -0,0 +1,58 @@
 +/*
 + * NOTE: This file is for internal use only.
@@ -4221,7 +4245,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/google-sparsehash/gen/arch/l
 +#define _START_GOOGLE_NAMESPACE_ namespace google {
 diff -Naur incubator-pagespeed-mod.orig/third_party/google-sparsehash/gen/arch/linux/armv7l/include/google/sparsehash/sparseconfig.h incubator-pagespeed-mod/third_party/google-sparsehash/gen/arch/linux/armv7l/include/google/sparsehash/sparseconfig.h
 --- incubator-pagespeed-mod.orig/third_party/google-sparsehash/gen/arch/linux/armv7l/include/google/sparsehash/sparseconfig.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/google-sparsehash/gen/arch/linux/armv7l/include/google/sparsehash/sparseconfig.h	2020-05-10 21:37:59.146718037 +0100
++++ incubator-pagespeed-mod/third_party/google-sparsehash/gen/arch/linux/armv7l/include/google/sparsehash/sparseconfig.h	2020-05-11 17:48:18.379737183 +0100
 @@ -0,0 +1,58 @@
 +/*
 + * NOTE: This file is for internal use only.
@@ -4282,8 +4306,8 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/google-sparsehash/gen/arch/l
 +/* Puts following code inside the Google namespace */
 +#define _START_GOOGLE_NAMESPACE_ namespace google {
 diff -Naur incubator-pagespeed-mod.orig/third_party/grpc/src/src/core/lib/support/log_linux.c incubator-pagespeed-mod/third_party/grpc/src/src/core/lib/support/log_linux.c
---- incubator-pagespeed-mod.orig/third_party/grpc/src/src/core/lib/support/log_linux.c	2020-05-10 00:14:36.458336857 +0100
-+++ incubator-pagespeed-mod/third_party/grpc/src/src/core/lib/support/log_linux.c	2020-05-10 21:37:59.146718037 +0100
+--- incubator-pagespeed-mod.orig/third_party/grpc/src/src/core/lib/support/log_linux.c	2020-05-11 17:34:49.334935618 +0100
++++ incubator-pagespeed-mod/third_party/grpc/src/src/core/lib/support/log_linux.c	2020-05-11 17:48:18.379737183 +0100
 @@ -39,7 +39,7 @@
  #include <time.h>
  #include <unistd.h>
@@ -4304,7 +4328,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/grpc/src/src/core/lib/suppor
    final_slash = strrchr(args->file, '/');
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/arm/include/ap_config_auto.h incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/arm/include/ap_config_auto.h
 --- incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/arm/include/ap_config_auto.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/arm/include/ap_config_auto.h	2020-05-10 21:37:59.146718037 +0100
++++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/arm/include/ap_config_auto.h	2020-05-11 17:48:18.609729941 +0100
 @@ -0,0 +1,261 @@
 +/* include/ap_config_auto.h.  Generated from ap_config_auto.h.in by configure.  */
 +/* include/ap_config_auto.h.in.  Generated from configure.in by autoheader.  */
@@ -4569,7 +4593,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/arm/inc
 +/* #undef rlim_t */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/arm/include/ap_config_layout.h incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/arm/include/ap_config_layout.h
 --- incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/arm/include/ap_config_layout.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/arm/include/ap_config_layout.h	2020-05-10 21:37:59.146718037 +0100
++++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/arm/include/ap_config_layout.h	2020-05-11 17:48:18.609729941 +0100
 @@ -0,0 +1,66 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -4639,7 +4663,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/arm/inc
 +#endif /* AP_CONFIG_LAYOUT_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_auto.h incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_auto.h
 --- incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_auto.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_auto.h	2020-05-10 21:37:59.156717885 +0100
++++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_auto.h	2020-05-11 17:48:18.609729941 +0100
 @@ -0,0 +1,261 @@
 +/* include/ap_config_auto.h.  Generated from ap_config_auto.h.in by configure.  */
 +/* include/ap_config_auto.h.in.  Generated from configure.in by autoheader.  */
@@ -4904,7 +4928,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/armv7l/
 +/* #undef rlim_t */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_layout.h incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_layout.h
 --- incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_layout.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_layout.h	2020-05-10 21:37:59.156717885 +0100
++++ incubator-pagespeed-mod/third_party/httpd/gen/arch/linux/armv7l/include/ap_config_layout.h	2020-05-11 17:48:18.609729941 +0100
 @@ -0,0 +1,66 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -4974,7 +4998,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd/gen/arch/linux/armv7l/
 +#endif /* AP_CONFIG_LAYOUT_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/arm/include/ap_config_auto.h incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/arm/include/ap_config_auto.h
 --- incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/arm/include/ap_config_auto.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/arm/include/ap_config_auto.h	2020-05-10 21:37:59.156717885 +0100
++++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/arm/include/ap_config_auto.h	2020-05-11 17:48:18.619729626 +0100
 @@ -0,0 +1,269 @@
 +/* include/ap_config_auto.h.  Generated from ap_config_auto.h.in by configure.  */
 +/* include/ap_config_auto.h.in.  Generated from configure.in by autoheader.  */
@@ -5247,7 +5271,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/arm/i
 +/* #undef rlim_t */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/arm/include/ap_config_layout.h incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/arm/include/ap_config_layout.h
 --- incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/arm/include/ap_config_layout.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/arm/include/ap_config_layout.h	2020-05-10 21:37:59.156717885 +0100
++++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/arm/include/ap_config_layout.h	2020-05-11 17:48:18.619729626 +0100
 @@ -0,0 +1,64 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -5315,7 +5339,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/arm/i
 +#endif /* AP_CONFIG_LAYOUT_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_auto.h incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_auto.h
 --- incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_auto.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_auto.h	2020-05-10 21:37:59.156717885 +0100
++++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_auto.h	2020-05-11 17:48:18.619729626 +0100
 @@ -0,0 +1,269 @@
 +/* include/ap_config_auto.h.  Generated from ap_config_auto.h.in by configure.  */
 +/* include/ap_config_auto.h.in.  Generated from configure.in by autoheader.  */
@@ -5588,7 +5612,7 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/armv7
 +/* #undef rlim_t */
 diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_layout.h incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_layout.h
 --- incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_layout.h	1970-01-01 01:00:00.000000000 +0100
-+++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_layout.h	2020-05-10 21:37:59.156717885 +0100
++++ incubator-pagespeed-mod/third_party/httpd24/gen/arch/linux/armv7l/include/ap_config_layout.h	2020-05-11 17:48:18.619729626 +0100
 @@ -0,0 +1,64 @@
 +/* Licensed to the Apache Software Foundation (ASF) under one or more
 + * contributor license agreements.  See the NOTICE file distributed with
@@ -5655,8 +5679,8 @@ diff -Naur incubator-pagespeed-mod.orig/third_party/httpd24/gen/arch/linux/armv7
 +
 +#endif /* AP_CONFIG_LAYOUT_H */
 diff -Naur incubator-pagespeed-mod.orig/third_party/libwebp/src/dsp/dsp.h incubator-pagespeed-mod/third_party/libwebp/src/dsp/dsp.h
---- incubator-pagespeed-mod.orig/third_party/libwebp/src/dsp/dsp.h	2020-05-10 00:22:31.429256928 +0100
-+++ incubator-pagespeed-mod/third_party/libwebp/src/dsp/dsp.h	2020-05-10 21:38:48.265971452 +0100
+--- incubator-pagespeed-mod.orig/third_party/libwebp/src/dsp/dsp.h	2020-05-11 17:43:02.069668193 +0100
++++ incubator-pagespeed-mod/third_party/libwebp/src/dsp/dsp.h	2020-05-11 17:48:18.619729626 +0100
 @@ -85,7 +85,7 @@
  #if (defined(__ARM_NEON__) || \
       defined(__aarch64__) || defined(WEBP_HAVE_NEON)) && \
